@@ -33,7 +33,7 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
         }
 
         return (string.IsNullOrEmpty(permission) || AdminManager.PlayerHasPermissions(player, permission)) &&
-               isTeamValid(player, team);
+               isTeamValid(player, team.ToLower());
     }
 
     public bool isTeamValid(CCSPlayerController player, string team)
