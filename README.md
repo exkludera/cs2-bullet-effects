@@ -26,12 +26,21 @@
 <br>
 
 ## example config
+
+**Enable** - Default: `false` (option to disable per effect) <br>
+**File**: - Default: `see examples below` (particle file to use on the effect) <br>
+**Permission** - Default: `""` (empty for no check, @css/reservation for vip) <br>
+**Team** - Default: `""` (T for Terrorist, CT for CounterTerrorist or empty for both) <br>
+
+**Color** - Default: `"random"` (value is RGB (255 255 255)) <br>
+**Width** - Default: `1` (set how wide the beam should be) <br>
+**Lifetime** - Default: `3` (how many seconds the the effect should last) <br>
+**Height** - Default: `0` (how many units to add on vitim AbsOrigin) <br>
+
 ```json
 {
   "Tracer": {
     "Enable": true,
-    "Permission": "",
-    "Team": "",
     "Color": "random",
     "Width": 1,
     "Lifetime": 3
@@ -39,14 +48,10 @@
   "Impact": {
     "Enable": true,
     "File": "particles/ambient_fx/aircraft_navred.vpcf",
-    "Permission": "",
-    "Team": ""
   },
   "HitEffect": {
     "Enable": true,
     "File": "particles/weapons/cs_weapon_fx/weapon_taser_glow.vpcf",
-    "Permission": "",
-    "Team": "",
     "Height": 32
   },
   "KillEffect": {

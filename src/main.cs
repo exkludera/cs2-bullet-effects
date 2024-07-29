@@ -10,7 +10,7 @@ namespace BulletEffects;
 public partial class Plugin : BasePlugin, IPluginConfig<Config>
 {
     public override string ModuleName => "Bullet Effects";
-    public override string ModuleVersion => "1.0.0";
+    public override string ModuleVersion => "1.0.1";
     public override string ModuleAuthor => "exkludera";
 
     public override void Load(bool hotReload)
@@ -39,8 +39,13 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
 
     private void CreateEffect(string effectName, CCSPlayerController player, Vector Position, string effectFile, string colorValue = "", float width = 0, float lifetime = 1.0f)
     {
+        Vector bulletDestination = new Vector(Position.X, Position.Y, Position.Z);
+
         switch (effectName.ToLower())
         {
+            case "impact":
+                effectName = string.IsNullOrEmpty(effectFile) ? "impact" : "impactparticle";
+                break;
             case "hiteffect":
                 Position.Z += Config.HitEffect.Height;
                 break;
@@ -49,7 +54,7 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
                 break;
         }
 
-        if (effectName == "tracer")
+        if (effectName == "tracer" || effectName == "impact")
         {
             var tracer = Utilities.CreateEntityByName<CBeam>("env_beam")!;
 
@@ -59,12 +64,20 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
             tracer.Width = width;
             tracer.DispatchSpawn();
 
-            var AbsOrigin = GetEyePosition(player);
-            tracer.Teleport(AbsOrigin);
+            if (effectName == "tracer")
+                Position = GetEyePosition(player);
 
-            tracer.EndPos.X = Position.X;
-            tracer.EndPos.Y = Position.Y;
-            tracer.EndPos.Z = Position.Z;
+            if (effectName == "impact")
+            {
+                Position.Z += width;
+                bulletDestination.Z -= width;
+            }
+
+            tracer.Teleport(Position);
+
+            tracer.EndPos.X = bulletDestination.X;
+            tracer.EndPos.Y = bulletDestination.Y;
+            tracer.EndPos.Z = bulletDestination.Z;
 
             Utilities.SetStateChanged(tracer, "CBeam", "m_vecEndPos");
 
@@ -78,7 +91,6 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
             particle.DispatchSpawn();
             particle.AcceptInput("Start");
 
-            Vector bulletDestination = new Vector(Position.X, Position.Y, Position.Z);
             particle.Teleport(bulletDestination);
 
             AddTimer(1.0f, particle.Remove);
@@ -98,7 +110,7 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
             CreateEffect("tracer", player, EndPos, "", Config.Tracer.Color, Config.Tracer.Width, Config.Tracer.Lifetime);
 
         if (Config.Impact.Enable && HasPermission(player, "impact"))
-            CreateEffect("impact", player, EndPos, Config.Impact.File);
+            CreateEffect("impact", player, EndPos, Config.Impact.File, Config.Impact.Color, Config.Impact.Width, Config.Impact.Lifetime);
 
         return HookResult.Continue;
     }
