@@ -5,7 +5,10 @@
 
 <details>
 	<summary>showcase</summary>
-
+	<img src="https://github.com/user-attachments/assets/5f9d1be2-a02c-4b7a-b133-37bca2c1fb4b" width="400px"> <br>
+	<img src="https://github.com/user-attachments/assets/6348e94b-3da2-49b9-bacf-c78a1d38c257" width="300px"> <br>
+	<img src="https://github.com/user-attachments/assets/a168fa3a-410b-49ce-a36a-82ef43c1aead" width="300px"> <br>
+	<img src="https://github.com/user-attachments/assets/ccc52017-fcea-4742-935b-64696e523e3c" width="300px"> <br>
 </details>
 
 <br>
