@@ -32,10 +32,11 @@ public class Impact
 public class HitEffect
 {
     public bool Enable { get; set; } = false;
-    public string File { get; set; } = "particles/weapons/cs_weapon_fx/weapon_taser_glow.vpcf";
+    public string File { get; set; } = "particles/ambient_fx/ambient_sparks_glow.vpcf";
     public string Permission { get; set; } = "";
     public string Team { get; set; } = "";
     public float Height { get; set; } = 32;
+    public string Sound { get; set; } = "";
 }
 
 public class KillEffect
@@ -45,4 +46,5 @@ public class KillEffect
     public string Permission { get; set; } = "";
     public string Team { get; set; } = "";
     public float Height { get; set; } = 0;
+    public string Sound { get; set; } = "";
 }

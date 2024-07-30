@@ -10,7 +10,7 @@ namespace BulletEffects;
 public partial class Plugin : BasePlugin, IPluginConfig<Config>
 {
     public override string ModuleName => "Bullet Effects";
-    public override string ModuleVersion => "1.0.1";
+    public override string ModuleVersion => "1.0.2";
     public override string ModuleAuthor => "exkludera";
 
     public override void Load(bool hotReload)
@@ -37,9 +37,12 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
         PrecacheResource(manifest, Config.KillEffect.File);
     }
 
-    private void CreateEffect(string effectName, CCSPlayerController player, Vector Position, string effectFile, string colorValue = "", float width = 0, float lifetime = 1.0f)
+    private void CreateEffect(string effectName, CCSPlayerController player, Vector Pos, string effectFile, string colorValue = "", float width = 0, float lifetime = 1.0f)
     {
-        Vector bulletDestination = new Vector(Position.X, Position.Y, Position.Z);
+        Vector Position = Pos;
+        Vector bulletDestination = Pos;
+
+        string soundPath = "";
 
         switch (effectName.ToLower())
         {
@@ -47,10 +50,12 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
                 effectName = string.IsNullOrEmpty(effectFile) ? "impact" : "impactparticle";
                 break;
             case "hiteffect":
-                Position.Z += Config.HitEffect.Height;
+                bulletDestination.Z += Config.HitEffect.Height;
+                soundPath = Config.HitEffect.Sound;
                 break;
             case "killeffect":
-                Position.Z += Config.KillEffect.Height;
+                bulletDestination.Z += Config.KillEffect.Height;
+                soundPath = Config.KillEffect.Sound;
                 break;
         }
 
@@ -92,6 +97,8 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
             particle.AcceptInput("Start");
 
             particle.Teleport(bulletDestination);
+
+            player.ExecuteClientCommand($"play {soundPath}");
 
             AddTimer(1.0f, particle.Remove);
         }
