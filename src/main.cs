@@ -37,10 +37,10 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
         PrecacheResource(manifest, Config.KillEffect.File);
     }
 
-    private void CreateEffect(string effectName, CCSPlayerController player, Vector Pos, string effectFile, string colorValue = "", float width = 0, float lifetime = 1.0f)
+    private void CreateEffect(string effectName, CCSPlayerController player, Vector Position, string effectFile, string colorValue = "", float width = 0, float lifetime = 1.0f)
     {
-        Vector Position = Pos;
-        Vector bulletDestination = Pos;
+        Vector Pos = new Vector(Position.X, Position.Y, Position.Z);
+        Vector bulletDestination = new Vector(Position.X, Position.Y, Position.Z);
 
         string soundPath = "";
 
@@ -70,15 +70,15 @@ public partial class Plugin : BasePlugin, IPluginConfig<Config>
             tracer.DispatchSpawn();
 
             if (effectName == "tracer")
-                Position = GetEyePosition(player);
+                Pos = GetEyePosition(player);
 
             if (effectName == "impact")
             {
-                Position.Z += width;
+                Pos.Z += width;
                 bulletDestination.Z -= width;
             }
 
-            tracer.Teleport(Position);
+            tracer.Teleport(Pos);
 
             tracer.EndPos.X = bulletDestination.X;
             tracer.EndPos.Y = bulletDestination.Y;
